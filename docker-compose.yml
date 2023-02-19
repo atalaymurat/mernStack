@@ -3,7 +3,7 @@ version: "3"
 services:
   mongodb:
     container_name: mongodb
-    image: mongo:latest
+    image: mongo:4.4-rc
     restart: unless-stopped
     logging:
       driver: none
@@ -28,6 +28,19 @@ services:
       - app
     depends_on:
       - mongodb
+  
+  react-ui:
+    container_name: react-ui
+    image: node-react
+    build: ./react-ui
+    volumes:
+      - ./react-ui:/usr/src/app
+      - /usr/src/app/node_modules
+    ports: 
+      - "3000:3000"
+    stdin_open: true
+    networks:
+      - app
 
 networks:
   app:
